@@ -72,15 +72,18 @@ class RasterView(View):
                     legend = Legend.objects.filter(title__iexact=legend_input).first()
                 colormap = legend.colormap
 
-        elif 'layer' in self.kwargs:
+        elif 'product' in self.kwargs:
             # Get legend for the input layer.
-            layer = RasterLayer.objects.get(name__icontains=self.kwargs.get('layer'))
-            legend = Legend.objects.filter(rasterlayer=layer).first()
+            product = RasterProduct.objects.get(name__iexact=self.kwargs.get('product'))
+            #legend = Legend.objects.filter(rasterlayer=layer).first() # What?
+            legend = product.legend
 
             if legend and hasattr(legend, 'colormap'):
                 colormap = legend.colormap
 
         if not colormap:
+            print("yeet yeet")
+
             # Use a continous grayscale color scheme.
             colormap = {
                 'continuous': True,
@@ -203,8 +206,6 @@ class AlgebraView(RasterView):
 
             layer_query = Q(product=product, year=y, day=d)
             layer_id = get_object_or_404(RasterLayer, layer_query).id
-
-            print(layer_id)
 
             # For TMS tile request, get the layer id from the url.
             self._layer_ids = {'x': layer_id}

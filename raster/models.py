@@ -114,6 +114,7 @@ class RasterProduct(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=200)
+    legend = models.ForeignKey(Legend, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -164,14 +165,13 @@ class RasterLayer(models.Model, ValueCountMixin):
     store_reprojected = models.BooleanField(default=True,
         help_text='Should the reprojected raster be stored? If unchecked, the '
                   'reprojected version of the raster is not stored.')
-    legend = models.ForeignKey(Legend, blank=True, null=True, on_delete=models.CASCADE)
     modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('product', 'year', 'day')
 
     def __str__(self):
-        return '{} {} (type: {})'.format(self.product.name, self.year, self.day)
+        return '{} {} {}'.format(self.product.name, self.year, self.day)
 
     @property
     def discrete(self):
