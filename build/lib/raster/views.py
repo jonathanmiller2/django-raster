@@ -82,8 +82,6 @@ class RasterView(View):
                 colormap = legend.colormap
 
         if not colormap:
-            print("yeet yeet")
-
             # Use a continous grayscale color scheme.
             colormap = {
                 'continuous': True,

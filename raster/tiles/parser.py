@@ -81,8 +81,6 @@ class RasterLayerParser(object):
 
         self.dataset = GDALRaster(self.rasterlayer.location)
 
-        print(self.dataset.name, self.dataset.width, self.dataset.height, self.dataset.bands, self.dataset.srid) #Is it too big??
-
         # Override srid if provided
         if self.rasterlayer.srid:
             try:

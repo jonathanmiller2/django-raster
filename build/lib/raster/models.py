@@ -271,8 +271,6 @@ def parse_raster_layer_if_status_is_unparsed(sender, instance, created, **kwargs
         subprocess.run(command, shell=True, check=True)
         print("mosaic complete, parsing mosaic", instance.location)
 
-        print(instance.location)
-
         parse(instance.id)
 
 
